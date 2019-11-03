@@ -1,5 +1,5 @@
-const path = require('path')
-const startcase = require('lodash.startcase')
+const path = require("path")
+const startcase = require("lodash.startcase")
 
 exports.onCreateNode = ({ node, getNode, actions }) => {
   if (node.internal.type !== `Mdx`) return
@@ -14,19 +14,19 @@ exports.onCreateNode = ({ node, getNode, actions }) => {
   createNodeField({
     name: `slug`,
     node,
-    value: `/${value}`
+    value: `/${value}`,
   })
 
   createNodeField({
     name: "id",
     node,
-    value: node.id
+    value: node.id,
   })
 
   createNodeField({
     name: "title",
     node,
-    value: node.frontmatter.title || startcase(node.name)
+    value: node.frontmatter.title || startcase(node.name),
   })
 }
 
@@ -55,8 +55,8 @@ exports.createPages = async ({ graphql, actions }) => {
       path: node.fields.slug ? node.fields.slug : "/",
       component: path.resolve("./src/templates/doc.js"),
       context: {
-        id: node.fields.id
-      }
+        id: node.fields.id,
+      },
     })
   })
 }

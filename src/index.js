@@ -1,7 +1,21 @@
 import React from "react"
 import { Helmet } from "react-helmet"
 import { graphql, useStaticQuery } from "gatsby"
+import { Global, css } from "@emotion/core"
 import Layout from "./components/layout"
+import normalize from "./normalize"
+const style = (
+  <Global
+    styles={css`
+      ${normalize}
+      body {
+        margin: 0;
+        font-family: "system-ui, sans-serif";
+        line-height: 1.5;
+      }
+    `}
+  />
+)
 
 const query = graphql`
   query {
@@ -29,6 +43,7 @@ const Page = ({ children }) => {
         <meta property="twitter:title" content={title} />
         <meta property="twitter:description" content={description} />
       </Helmet>
+      {style}
       {children}
     </Layout>
   )

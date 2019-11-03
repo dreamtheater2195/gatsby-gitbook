@@ -1,9 +1,9 @@
-import React from 'react'
-import Header from './header'
-import styled from '@emotion/styled'
-import { css } from 'theme-ui'
+import React from "react"
+import Header from "./header"
+import styled from "@emotion/styled"
+import { css } from "theme-ui"
 
-const Main = styled('div')(
+const Main = styled("div")(
   css({
     paddingTop: 2,
     paddingBottom: 3,
@@ -12,9 +12,7 @@ const Main = styled('div')(
 
 export default ({ children }) => (
   <div>
-    <Header/>
-    <Main>
-      {children}
-    </Main>
+    <Header />
+    <Main>{children}</Main>
   </div>
 )

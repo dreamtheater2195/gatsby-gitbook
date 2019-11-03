@@ -1,6 +1,6 @@
-import React from 'react'
-import { graphql } from 'gatsby'
-import MDXRenderer from 'gatsby-plugin-mdx/mdx-renderer'
+import React from "react"
+import { graphql } from "gatsby"
+import MDXRenderer from "gatsby-plugin-mdx/mdx-renderer"
 
 export const pageQuery = graphql`
   query($id: String!) {
