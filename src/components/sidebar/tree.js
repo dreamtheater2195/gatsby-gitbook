@@ -105,6 +105,7 @@ const Tree = ({ edges }) => {
       className="firstLevel"
       setCollapsed={toggle}
       collapsed={collapsed}
+      level={0}
       {...treeData}
     />
   )

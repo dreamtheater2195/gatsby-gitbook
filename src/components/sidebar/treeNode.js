@@ -1,8 +1,24 @@
-import React from "react"
+/** @jsx jsx */
+import { jsx, css } from "theme-ui"
+import styled from "@emotion/styled"
 import OpenedSvg from "./../../images/opened"
 import ClosedSvg from "./../../images/closed"
 import config from "./../../../config"
 import Link from "./../link"
+
+const StyledLi = styled("li")(
+  css({
+    listStyle: "none",
+    padding: 0,
+  }),
+  props =>
+    props.level >= 2 &&
+    css({
+      ml: 2,
+      borderLeft: "1px solid transparent",
+      borderLeftColor: "lightgray",
+    })
+)
 
 const TreeNode = ({
   className = "",
@@ -11,6 +27,7 @@ const TreeNode = ({
   url,
   title,
   items,
+  level,
   ...rest
 }) => {
   const isCollapsed = collapsed[url]
@@ -26,14 +43,44 @@ const TreeNode = ({
     location &&
     (location.pathname === url ||
       location.pathname === config.gatsby.pathPrefix + url)
-  const calculatedClassName = `${className} item ${active ? "active" : ""}`
   return (
-    <li className={calculatedClassName}>
+    <StyledLi level={level}>
       {title && (
-        <Link to={url}>
+        <Link
+          to={url}
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            color: "#fff",
+            textDecoration: "none",
+            fontSize: "0.875rem",
+            fontWeight: 500,
+            lineHeight: 1.5,
+            width: "100%",
+            py: 2,
+            px: 3,
+            backgroundColor: active && "secondary",
+            "&:hover": {
+              backgroundColor: "secondary",
+            },
+          }}
+        >
           <span>{title}</span>
           {hasChildren ? (
-            <button onClick={collapse} className="collapser">
+            <button
+              onClick={collapse}
+              sx={{
+                background: "transparent",
+                border: "none",
+                outline: "none",
+                mt: 2,
+                zIndex: 1,
+                "& svg": {
+                  fill: "#fff",
+                },
+              }}
+            >
               {!isCollapsed ? <OpenedSvg /> : <ClosedSvg />}
             </button>
           ) : null}
@@ -41,18 +88,20 @@ const TreeNode = ({
       )}
 
       {!isCollapsed && hasChildren ? (
-        <ul>
+        <ul sx={{ padding: 0, margin: 0 }}>
           {items.map(item => (
             <TreeNode
               key={item.url}
               setCollapsed={setCollapsed}
               collapsed={collapsed}
+              isChild={true}
+              level={level + 1}
               {...item}
             />
           ))}
         </ul>
       ) : null}
-    </li>
+    </StyledLi>
   )
 }
 export default TreeNode

@@ -62,6 +62,12 @@ const colors = {
   },
 }
 
+const breakpoints = ["576px", "768px", "992px", "1200px"]
+breakpoints.sm = breakpoints[0]
+breakpoints.md = breakpoints[1]
+breakpoints.lg = breakpoints[2]
+breakpoints.xl = breakpoints[3]
+
 export default {
   colors,
   space: [0, 4, 8, 16, 32, 64, 128, 256, 512],
@@ -71,6 +77,7 @@ export default {
     monospace: "Menlo, monospace",
   },
   fontSizes: [12, 14, 16, 20, 24, 32, 48, 64, 96],
+  breakpoints,
   fontWeights: {
     body: 400,
     heading: 700,

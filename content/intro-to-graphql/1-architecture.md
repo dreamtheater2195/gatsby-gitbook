@@ -8,6 +8,7 @@ Before going further in understanding GraphQL, it's useful to get a sense of how
 GraphQL is actually used in an HTTP client (typically a web/mobile app).
 
 ## GraphQL over HTTP
+
 Check out the diagram below, to get a sense of how GraphQL is typically used in
 your stack:
 
@@ -16,7 +17,7 @@ your stack:
 ### GraphQL client-server flow:
 
 1. Note that the GraphQL query is not really JSON; it looks like the shape of the
-   JSON you *want*. So when we make a 'POST' request to send our GraphQL query to
+   JSON you _want_. So when we make a 'POST' request to send our GraphQL query to
    the server, it is sent as a "string" by the client.
 2. The server gets the JSON object and extracts the query string. As per the
    GraphQL syntax and the graph data model (GraphQL schema), the server processes
@@ -42,11 +43,9 @@ client.
 Here's what a typical GraphQL client setup and making a query would look like:
 
 ```javascript
-
 // Setup a GraphQL client to use the endpoint
 
-const client = new client("https://myapi.com/graphql");
-
+const client = new client("https://myapi.com/graphql")
 
 // Now, send your query as a string (Note that ` is used to create a multi-line
 // string in javascript).
@@ -57,5 +56,5 @@ client.query(`
       id
       name
     }
-  }`);
+  }`)
 ```

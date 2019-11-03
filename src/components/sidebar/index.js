@@ -13,53 +13,6 @@ const Sidebar = styled("aside")(props =>
     overflow: "auto",
     bg: "text",
     transition: "height 200ms ease-out",
-    "& ul": {
-      padding: 0,
-      margin: 0,
-    },
-    "& > ul": {
-      mt: 4,
-    },
-    ".item": {
-      listStyle: "none",
-      padding: 0,
-    },
-    ".firstLevel .item": {
-      '.item': {
-        ml: 2,
-        borderLeft: '1px solid transparent',
-        borderLeftColor: 'lightgray',
-      }
-    },
-    ".active > a": {
-      backgroundColor: "secondary",
-    },
-    "& a": {
-      display: "flex",
-      alignItems: 'center',
-      justifyContent: 'space-between',
-      color: "#fff",
-      textDecoration: "none",
-      fontSize: "0.875rem",
-      fontWeight: 500,
-      lineHeight: 1.5,
-      width: "100%",
-      py: 2,
-      px: 3,
-      "&:hover": {
-        backgroundColor: "secondary",
-      },
-    },
-    ".collapser": {
-      background: 'transparent',
-      border: 'none',
-      outline: 'none',
-      mt: 2,
-      zIndex: 1,
-      "& svg": {
-        fill: '#fff',
-      }
-    }
   })
 )
 
@@ -80,7 +33,13 @@ export default ({ location, open }) => {
   `)
   return (
     <Sidebar open={open}>
-      <ul>
+      <ul
+        sx={{
+          padding: 0,
+          margin: 0,
+          mt: 4,
+        }}
+      >
         <Tree edges={data.allMdx.edges}></Tree>
       </ul>
     </Sidebar>

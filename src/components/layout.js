@@ -5,14 +5,14 @@ import { css } from "theme-ui"
 
 const Main = styled("div")(
   css({
-    paddingTop: 2,
-    paddingBottom: 3,
+    py: 4,
+    px: 3,
   })
 )
 
-export default ({ children }) => (
+export default ({ children, location }) => (
   <div>
-    <Header />
+    <Header location={location} />
     <Main>{children}</Main>
   </div>
 )

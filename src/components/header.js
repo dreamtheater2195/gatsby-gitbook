@@ -132,7 +132,7 @@ const Header = ({ location }) => {
         sx={{
           display: "block",
           overflowX: "visible",
-          borderTop: open ? "1px solid transparent" : 'none',
+          borderTop: open ? "1px solid transparent" : "none",
           boxShadow: "inset 0 1px 0 rgba(255,255,255,.1)",
           borderColor: "lightgray",
         }}

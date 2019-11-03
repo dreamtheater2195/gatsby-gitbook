@@ -37,11 +37,11 @@ use a tool like GraphiQL to explore and test your GraphQL queries.
 3. Now, paste this GraphQL query in the GraphiQL window
 
 ```graphql
- query {
-   users {
-     name
-   }
- }
+query {
+  users {
+    name
+  }
+}
 ```
 
 4. Hit `ctrl + enter` or `cmd + enter` (mac) or click on the ▶️ icon to run the GraphQL query
@@ -69,18 +69,17 @@ Let's try making queries that fetch different slices of our data from the overal
 This GraphQL query will fetch all the users and their publicly visible todos:
 
 ```graphql
- query {
-   users {
-     name
-     todos {
-       title
-     }
-   }
- }
+query {
+  users {
+    name
+    todos {
+      title
+    }
+  }
+}
 ```
 
 <b><a href="https://learn.hasura.io/graphql/graphiql" target="_blank">Try it out in GraphiQL</a></b>
-
 
 ### Fetch online users and their profile information
 
@@ -88,18 +87,17 @@ This GraphQL query will fetch all the currently online users
 and their profile information (which is just their name for now):
 
 ```graphql
- query {
-   online_users {
-     last_seen
-     user {
-       name
-     }
-   }
- }
+query {
+  online_users {
+    last_seen
+    user {
+      name
+    }
+  }
+}
 ```
 
 <b><a href="https://learn.hasura.io/graphql/graphiql" target="_blank">Try it out in GraphiQL</a></b>
-
 
 ## Adding parameters (arguments) to GraphQL queries
 
@@ -107,7 +105,7 @@ In most API calls, you usually use parameters. For example, to specify what data
 If you're familiar with making `GET` calls, you would have used a query parameter. For example,
 to fetch only 10 todos you might have made this API call: `GET /api/todos?limit=10`.
 
-The GraphQL query analog of this is *arguments* that you can attach to a "field".
+The GraphQL query analog of this is _arguments_ that you can attach to a "field".
 
 ### Basic argument: Fetch 10 todos
 
@@ -133,10 +131,10 @@ The GraphQL server or API that you use, might provide a different set of argumen
 
 ```graphql
 query {
-  users (limit: 1) {
+  users(limit: 1) {
     id
     name
-    todos(order_by: {created_at: desc}, limit: 5) {
+    todos(order_by: { created_at: desc }, limit: 5) {
       id
       title
     }
@@ -145,11 +143,13 @@ query {
 ```
 
 Notice that we are passing arguments to different fields. This GraphQL query reads as:
+
 > Fetch users (with limit 1), and their todos (ordered by descending creation time, and limited to 5).
 
 <b><a href="https://learn.hasura.io/graphql/graphiql" target="_blank">Try it out in GraphiQL</a></b>
 
 <a name="query-variables"></a>
+
 ## GraphQL variables: Passing arguments to your queries dynamically
 
 This is great, but we still have a problem. If we want to create a query
@@ -159,18 +159,19 @@ create the entire query string again.
 This is what we don't want to do:
 
 ```javascript
-var limit = getMaxTodosFromUserInput();
-var query = "query { todos (limit: " + limit.toString() + ") {id title} }";
+var limit = getMaxTodosFromUserInput()
+var query = "query { todos (limit: " + limit.toString() + ") {id title} }"
 ```
 
 Thankfully, we don't ever have to do this! GraphQL variables are extra variables
 that you can send in a query so that the "arguments" can be provided dynamically!
 
-## Fetch $limit number of todos
+## Fetch \$limit number of todos
 
 This is what our GraphQL query would look like:
+
 ```graphql
-query ($limit: Int!) {
+query($limit: Int!) {
   todos(limit: $limit) {
     id
     title
@@ -179,9 +180,10 @@ query ($limit: Int!) {
 ```
 
 In addition to the query above, we send a variables object:
+
 ```json
 {
-   "limit": 10
+  "limit": 10
 }
 ```
 
@@ -190,6 +192,7 @@ we'll send both the query and the variables. The GraphQL server will use the
 variable in the right place in the query automatically for us!
 
 Let's try this out in GraphiQL:
+
 1. Head to GraphiQL
 2. Write out this query
 3. Scroll to the bottom of the page, where you see a smaller panel "Query Variables"

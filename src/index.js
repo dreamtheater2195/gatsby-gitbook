@@ -28,11 +28,11 @@ const query = graphql`
   }
 `
 
-const Page = ({ children }) => {
+const Page = ({ children, location }) => {
   const data = useStaticQuery(query)
   const { title, description } = data.site.siteMetadata
   return (
-    <Layout>
+    <Layout location={location}>
       <Helmet>
         <meta charSet="utf-8" />
         <title>{title}</title>
