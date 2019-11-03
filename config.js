@@ -13,6 +13,14 @@ module.exports = {
     tweetText: "",
     links: [{ text: "", link: "" }],
   },
+  "sidebar": {
+		"forcedNavOrder": [
+			"/introduction",
+    		"/codeblock"
+		],
+		"links": [],
+		"ignoreIndex": true,
+	},
   siteMetadata: {
     title: "Gatsby Gitbook",
     description: "Documentation built with mdx",

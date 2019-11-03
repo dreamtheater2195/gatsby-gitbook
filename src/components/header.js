@@ -1,8 +1,10 @@
 /** @jsx jsx */
 import { jsx, css } from "theme-ui"
+import { useState } from "react"
 import styled from "@emotion/styled"
 import { useStaticQuery, graphql } from "gatsby"
 import Link from "./link"
+import Sidebar from "./sidebar"
 
 const NavBarToggle = styled("button")(
   css({
@@ -52,6 +54,9 @@ const NavBarBrand = styled(Link)(
 )
 
 const Header = ({ location }) => {
+  const [open, setOpen] = useState(false)
+  const toggleOpen = () => setOpen(!open)
+
   const data = useStaticQuery(graphql`
     query headerTitleQuery {
       site {
@@ -87,41 +92,63 @@ const Header = ({ location }) => {
   } = data
   const finalLogoLink = logo.link !== "" ? logo.link : "/"
   return (
-    <div
+    <header
       sx={{
         position: "relative",
         minHeight: "50px",
-        boxShadow: "-1px 0px 4px 1px rgba(0,119,204,.4)",
+        boxShadow: "-1px 0px 4px 1px rgba(255,255,255,.4)",
         bg: "text",
         padding: 3,
         zIndex: 1,
       }}
     >
       <div
+        className="navBarHeader"
         sx={{
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
         }}
       >
-        <NavBarBrand to={finalLogoLink}>
+        <NavBarBrand className="navBarBrand" to={finalLogoLink}>
           {logo.image !== "" ? (
-            <Logo src={logo.image} alt={"logo"} />
+            <Logo className="logo" src={logo.image} alt={"logo"} />
           ) : (
-            <Logo src={logoImg} alt={"logo"} />
+            <Logo className="logo" src={logoImg} alt={"logo"} />
           )}
           <div
-            className={"headerTitle"}
+            className="headerTitle"
             dangerouslySetInnerHTML={{ __html: headerTitle }}
           />
         </NavBarBrand>
-        <NavBarToggle>
+        <NavBarToggle className="navBarToggle" onClick={toggleOpen}>
           <IconBar></IconBar>
           <IconBar></IconBar>
           <IconBar></IconBar>
         </NavBarToggle>
       </div>
-    </div>
+      <div
+        className="navBarCollapse"
+        sx={{
+          display: "block",
+          overflowX: "visible",
+          borderTop: open ? "1px solid transparent" : 'none',
+          boxShadow: "inset 0 1px 0 rgba(255,255,255,.1)",
+          borderColor: "lightgray",
+        }}
+      >
+        <div
+          sx={{
+            display: "block",
+            "@media (min-width: 768px)": {
+              display: "none",
+            },
+          }}
+        >
+          <Sidebar location={location} open={open} />
+        </div>
+      </div>
+    </header>
   )
 }
 export default Header

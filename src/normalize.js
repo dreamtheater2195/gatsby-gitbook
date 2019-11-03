@@ -4,6 +4,12 @@ const normalize = css`
   html {
     line-height: 1.15;
     -webkit-text-size-adjust: 100%;
+    box-sizing: border-box;
+  }
+  *,
+  *::before,
+  *::after {
+    box-sizing: inherit;
   }
   body {
     margin: 0;
