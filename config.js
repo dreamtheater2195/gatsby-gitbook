@@ -14,7 +14,7 @@ module.exports = {
     links: [{ text: "", link: "" }],
   },
   sidebar: {
-    forcedNavOrder: ["/introduction", "/codeblock"],
+    forcedNavOrder: ["/introduction", "/intro-to-graphql"],
     links: [],
     ignoreIndex: true,
   },
