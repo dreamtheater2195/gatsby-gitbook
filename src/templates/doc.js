@@ -1,5 +1,5 @@
 /** @jsx jsx */
-import React from "react"
+import React from "react" // eslint-disable-line
 import { jsx, css } from "theme-ui"
 import styled from "@emotion/styled"
 import { Helmet } from "react-helmet"
@@ -47,6 +47,7 @@ export const pageQuery = graphql`
 `
 const Edit = styled(Link)(
   css({
+    fontSize: 1,
     display: "inline-flex",
     alignItems: "center",
     justifyContent: "center",
@@ -103,13 +104,11 @@ export default props => {
     }, [])
     .concat(navItems.items)
     .map(slug => {
-      if (slug) {
-        const { node } = allMdx.edges.find(
-          ({ node }) => node.fields.slug === slug
-        )
+      const { node } = allMdx.edges.find(
+        ({ node }) => node.fields.slug === slug
+      )
 
-        return { title: node.fields.title, url: node.fields.slug }
-      }
+      return { title: node.fields.title, url: node.fields.slug }
     })
 
   //meta
@@ -145,9 +144,10 @@ export default props => {
         className="titleWrapper"
         sx={{
           display: "flex",
-          alignItems: "flex-start",
-          flexDirection: "column",
-          pb: 3,
+          alignItems: ["flex-start", null, "center"],
+          flexDirection: ["column", null, "row"],
+          justifyContent: ["flex-start", null, "space-between"],
+          pb: [3, null, 4],
           borderBottom: "1px solid",
           borderColor: "gray",
           mb: 3,
@@ -157,6 +157,7 @@ export default props => {
           sx={{
             pl: 3,
             mt: 0,
+            mb: [null, null, 0],
             borderLeft: "2px solid",
             borderColor: "text",
           }}

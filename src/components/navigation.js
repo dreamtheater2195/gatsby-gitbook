@@ -8,6 +8,11 @@ const Wrapper = styled("div")(
     display: "flex",
     flexDirection: "column",
     my: 4,
+    "@media screen and (min-width: 768px)": {
+      flexDirection: "row",
+      alignItems: "center",
+      justifyContent: "space-between",
+    },
   })
 )
 

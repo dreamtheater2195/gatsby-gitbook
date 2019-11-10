@@ -4,7 +4,8 @@ import styled from "@emotion/styled"
 import OpenedSvg from "./../../images/opened"
 import ClosedSvg from "./../../images/closed"
 import config from "./../../../config"
-import Link from "./../link"
+import { navigate } from "gatsby"
+import { useAppContext } from "./../../index"
 
 const StyledLi = styled("li")(
   css({
@@ -28,8 +29,9 @@ const TreeNode = ({
   title,
   items,
   level,
-  ...rest
 }) => {
+  const { setOpen } = useAppContext()
+
   const isCollapsed = collapsed[url]
   const collapse = () => {
     setCollapsed(url)
@@ -43,17 +45,21 @@ const TreeNode = ({
     location &&
     (location.pathname === url ||
       location.pathname === config.gatsby.pathPrefix + url)
+
+  const navigateToUrl = () => {
+    setOpen(false)
+    navigate(url)
+  }
   return (
     <StyledLi level={level}>
       {title && (
-        <Link
-          to={url}
+        <div
           sx={{
             display: "flex",
             alignItems: "center",
             justifyContent: "space-between",
+            cursor: "pointer",
             color: "#fff",
-            textDecoration: "none",
             fontSize: "0.875rem",
             fontWeight: 500,
             lineHeight: 1.5,
@@ -65,6 +71,7 @@ const TreeNode = ({
               backgroundColor: "secondary",
             },
           }}
+          onClick={navigateToUrl}
         >
           <span>{title}</span>
           {hasChildren ? (
@@ -84,7 +91,7 @@ const TreeNode = ({
               {!isCollapsed ? <OpenedSvg /> : <ClosedSvg />}
             </button>
           ) : null}
-        </Link>
+        </div>
       )}
 
       {!isCollapsed && hasChildren ? (

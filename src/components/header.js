@@ -1,8 +1,9 @@
 /** @jsx jsx */
 import { jsx, css } from "theme-ui"
-import { useState } from "react"
 import styled from "@emotion/styled"
+import GitHubButton from "react-github-btn"
 import { useStaticQuery, graphql } from "gatsby"
+import { useAppContext } from "./../index"
 import Link from "./link"
 import Sidebar from "./sidebar"
 
@@ -15,6 +16,7 @@ const NavBarToggle = styled("button")(
     borderRadius: "small",
     borderColor: "background",
     cursor: "pointer",
+    display: ["block", null, "none"],
   })
 )
 
@@ -46,16 +48,75 @@ const NavBarBrand = styled(Link)(
     alignItems: "center",
     lineHeight: 1.5,
     fontSize: 3,
-    padding: 3,
+    padding: [3, null, 0],
     pl: 0,
     color: "#fff",
     textDecoration: "none",
   })
 )
 
+const StyledHeader = styled("header")(
+  css({
+    position: "relative",
+    minHeight: "50px",
+    boxShadow: "-1px 0px 4px 1px rgba(255,255,255,.4)",
+    bg: "text",
+    padding: 3,
+    zIndex: 1,
+    "@media screen and (min-width: 768px)": {
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "space-between",
+    },
+  })
+)
+
+const NavBarCollapse = styled("div")(props =>
+  css({
+    display: "block",
+    overflowX: "visible",
+    borderTop: props.open ? "1px solid transparent" : "none",
+    boxShadow: props.open ? "inset 0 1px 0 rgba(255,255,255,.1)" : "none",
+    borderColor: "lightgray",
+    "@media screen and (min-width: 768px)": {
+      borderTop: "none",
+      boxShadow: "none",
+    },
+  })
+)
+
+const NavBarRight = styled("ul")(props =>
+  css({
+    display: props.open ? "flex" : "none",
+    margin: 0,
+    padding: 0,
+    alignItems: "center",
+    listStyle: "none",
+    img: {
+      width: "20px",
+      "&:hover": {
+        opacity: 0.85,
+      },
+    },
+    "& li": {
+      display: "inline-block",
+    },
+    "& li a": {
+      px: 3,
+      py: [2, null, 3],
+    },
+    ".githubBtn span span": {
+      display: "flex",
+      alignItems: "center",
+    },
+    "@media screen and (min-width: 768px)": {
+      display: "flex",
+    },
+  })
+)
+
 const Header = ({ location }) => {
-  const [open, setOpen] = useState(false)
-  const toggleOpen = () => setOpen(!open)
+  const { open, toggleOpen } = useAppContext()
 
   const data = useStaticQuery(graphql`
     query headerTitleQuery {
@@ -78,6 +139,8 @@ const Header = ({ location }) => {
     }
   `)
   const logoImg = require("./../images/logo.svg")
+  const help = require("./../images/help.svg")
+  const twitter = require("./../images/twitter.svg")
   const {
     site: {
       siteMetadata: {
@@ -92,63 +155,95 @@ const Header = ({ location }) => {
   } = data
   const finalLogoLink = logo.link !== "" ? logo.link : "/"
   return (
-    <header
-      sx={{
-        position: "relative",
-        minHeight: "50px",
-        boxShadow: "-1px 0px 4px 1px rgba(255,255,255,.4)",
-        bg: "text",
-        padding: 3,
-        zIndex: 1,
-      }}
-    >
+    <StyledHeader>
       <div
-        className="navBarHeader"
         sx={{
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
         }}
       >
-        <NavBarBrand className="navBarBrand" to={finalLogoLink}>
+        <NavBarBrand to={finalLogoLink}>
           {logo.image !== "" ? (
             <Logo className="logo" src={logo.image} alt={"logo"} />
           ) : (
             <Logo className="logo" src={logoImg} alt={"logo"} />
           )}
           <div
-            className="headerTitle"
+            sx={{
+              fontSize: [3, 3, 4],
+            }}
             dangerouslySetInnerHTML={{ __html: headerTitle }}
           />
         </NavBarBrand>
-        <NavBarToggle className="navBarToggle" onClick={toggleOpen}>
+        <NavBarToggle onClick={toggleOpen}>
           <IconBar></IconBar>
           <IconBar></IconBar>
           <IconBar></IconBar>
         </NavBarToggle>
       </div>
-      <div
-        className="navBarCollapse"
-        sx={{
-          display: "block",
-          overflowX: "visible",
-          borderTop: open ? "1px solid transparent" : "none",
-          boxShadow: "inset 0 1px 0 rgba(255,255,255,.1)",
-          borderColor: "lightgray",
-        }}
-      >
+      <NavBarCollapse open={open}>
         <div
           sx={{
-            display: "block",
-            "@media (min-width: 768px)": {
-              display: "none",
-            },
+            display: ["block", null, "none"],
           }}
         >
           <Sidebar location={location} open={open} />
         </div>
-      </div>
-    </header>
+        <NavBarRight open={open}>
+          {headerLinks.map((link, key) => {
+            if (link.link && link.text) {
+              return (
+                <li key={key}>
+                  <a
+                    href={link.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    dangerouslySetInnerHTML={{ __html: link.text }}
+                  />
+                </li>
+              )
+            }
+            return null
+          })}
+          {helpUrl !== "" ? (
+            <li>
+              <a href={helpUrl}>
+                <img src={help} alt="Help icon" />
+              </a>
+            </li>
+          ) : null}
+          {tweetText !== "" ? (
+            <li>
+              <a
+                href={"https://twitter.com/intent/tweet?&text=" + tweetText}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <img src={twitter} alt="Twitter" />
+              </a>
+            </li>
+          ) : null}
+          {githubUrl !== "" ? (
+            <li
+              className="githubBtn"
+              sx={{
+                px: 3,
+                py: [2, null, 3],
+              }}
+            >
+              <GitHubButton
+                href={githubUrl}
+                data-show-count="true"
+                aria-label="Star on GitHub"
+              >
+                Star
+              </GitHubButton>
+            </li>
+          ) : null}
+        </NavBarRight>
+      </NavBarCollapse>
+    </StyledHeader>
   )
 }
 export default Header

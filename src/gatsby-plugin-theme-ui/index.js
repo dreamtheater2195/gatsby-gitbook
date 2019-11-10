@@ -10,10 +10,10 @@ const colors = {
   background: "#fff9f9",
   primary: "#c30",
   secondary: "#400",
-  highlight: "#ededff",
-  accent: "#c0f",
   gray: "#e9e6e6",
   lightgray: "#f9f6f6",
+  highlight: "#ededff",
+  accent: "#c0f",
   midgray: "#777",
   modes: {
     dark: {
@@ -72,7 +72,7 @@ export default {
   colors,
   space: [0, 4, 8, 16, 32, 64, 128, 256, 512],
   fonts: {
-    body: "system-ui, sans-serif",
+    body: `-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif`,
     heading: "inherit",
     monospace: "Menlo, monospace",
   },
