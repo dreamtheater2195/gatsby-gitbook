@@ -12,7 +12,7 @@ const Sidebar = styled("aside")(props =>
     position: "sticky",
     top: "0px",
     overflow: "auto",
-    bg: "text",
+    bg: "background",
     transition: "height 200ms ease-out",
   })
 )
@@ -32,7 +32,7 @@ const ListItem = styled(props => (
       alignItems: "center",
       justifyContent: "space-between",
       position: "relative",
-      color: "#fff",
+      color: "text",
       py: 2,
       px: 3,
       "&:hover": {
@@ -55,7 +55,7 @@ const Divider = styled(props => (
       padding: 0,
       border: 0,
       borderBottom: "1px solid",
-      borderBottomColor: "lightgray",
+      borderBottomColor: "gray",
     },
   })
 )

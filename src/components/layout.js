@@ -25,6 +25,8 @@ const LeftSideBarWrapper = styled("div")(
     display: ["none", null, "block"],
     minWidth: "250px",
     maxWidth: "300px",
+    borderRight: "1px solid",
+    borderRightColor: "gray",
   })
 )
 

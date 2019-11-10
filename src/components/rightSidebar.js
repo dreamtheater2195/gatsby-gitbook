@@ -91,7 +91,9 @@ const RightSideBar = ({ location }) => {
             </ListItem>
           )
         })
+        return null
       }
+      return null
     })
   }
   if (navItems && navItems.length) {

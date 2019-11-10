@@ -59,16 +59,15 @@ const TreeNode = ({
             alignItems: "center",
             justifyContent: "space-between",
             cursor: "pointer",
-            color: "#fff",
+            color: active ? "secondary" : "text",
             fontSize: "0.875rem",
             fontWeight: 500,
             lineHeight: 1.5,
             width: "100%",
             py: 2,
             px: 3,
-            backgroundColor: active && "secondary",
             "&:hover": {
-              backgroundColor: "secondary",
+              color: "secondary",
             },
           }}
           onClick={navigateToUrl}

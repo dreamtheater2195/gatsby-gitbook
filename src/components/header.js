@@ -1,20 +1,22 @@
 /** @jsx jsx */
-import { jsx, css } from "theme-ui"
+import { jsx, css, useColorMode } from "theme-ui"
 import styled from "@emotion/styled"
 import GitHubButton from "react-github-btn"
 import { useStaticQuery, graphql } from "gatsby"
 import { useAppContext } from "./../index"
 import Link from "./link"
 import Sidebar from "./sidebar"
+import Twitter from "./../images/twitter"
+import Help from "./../images/help"
 
 const NavBarToggle = styled("button")(
   css({
     position: "relative",
     padding: 2,
     bg: "transparent",
-    border: "1px solid transparent",
+    border: "1px solid",
     borderRadius: "small",
-    borderColor: "background",
+    borderColor: "text",
     cursor: "pointer",
     display: ["block", null, "none"],
   })
@@ -27,7 +29,7 @@ const IconBar = styled("span")(
     height: "2px",
     marginTop: 1,
     borderRadius: "1px",
-    backgroundColor: "background",
+    backgroundColor: "text",
     "&:first-of-type": {
       marginTop: 0,
     },
@@ -50,7 +52,7 @@ const NavBarBrand = styled(Link)(
     fontSize: 3,
     padding: [3, null, 0],
     pl: 0,
-    color: "#fff",
+    color: "text",
     textDecoration: "none",
   })
 )
@@ -59,8 +61,9 @@ const StyledHeader = styled("header")(
   css({
     position: "relative",
     minHeight: "50px",
-    boxShadow: "-1px 0px 4px 1px rgba(255,255,255,.4)",
-    bg: "text",
+    borderBottom: "1px solid",
+    borderBottomColor: "gray",
+    bg: "background",
     padding: 3,
     zIndex: 1,
     "@media screen and (min-width: 768px)": {
@@ -92,18 +95,23 @@ const NavBarRight = styled("ul")(props =>
     padding: 0,
     alignItems: "center",
     listStyle: "none",
-    img: {
+    "& li": {
+      display: "inline-block",
+    },
+    "& li svg": {
+      mb: "-3px",
       width: "20px",
+      height: "20px",
+      "& path": {
+        fill: "text",
+      },
       "&:hover": {
         opacity: 0.85,
       },
     },
-    "& li": {
-      display: "inline-block",
-    },
     "& li a": {
-      px: 3,
-      py: [2, null, 3],
+      px: 2,
+      py: 2,
     },
     ".githubBtn span span": {
       display: "flex",
@@ -115,8 +123,15 @@ const NavBarRight = styled("ul")(props =>
   })
 )
 
+const modes = ["light", "dark", "gray", "book"]
+
 const Header = ({ location }) => {
+  const [mode, setMode] = useColorMode()
   const { open, toggleOpen } = useAppContext()
+  const cycleMode = () => {
+    const i = (modes.indexOf(mode) + 1) % modes.length
+    setMode(modes[i])
+  }
 
   const data = useStaticQuery(graphql`
     query headerTitleQuery {
@@ -139,8 +154,6 @@ const Header = ({ location }) => {
     }
   `)
   const logoImg = require("./../images/logo.svg")
-  const help = require("./../images/help.svg")
-  const twitter = require("./../images/twitter.svg")
   const {
     site: {
       siteMetadata: {
@@ -182,67 +195,91 @@ const Header = ({ location }) => {
           <IconBar></IconBar>
         </NavBarToggle>
       </div>
-      <NavBarCollapse open={open}>
-        <div
+      <div sx={{ display: "flex", alignItems: "center" }}>
+        <NavBarCollapse open={open}>
+          <div
+            sx={{
+              display: ["block", null, "none"],
+            }}
+          >
+            <Sidebar location={location} open={open} />
+          </div>
+          <NavBarRight open={open}>
+            {headerLinks.map((link, key) => {
+              if (link.link && link.text) {
+                return (
+                  <li key={key}>
+                    <a
+                      href={link.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      dangerouslySetInnerHTML={{ __html: link.text }}
+                    />
+                  </li>
+                )
+              }
+              return null
+            })}
+            {helpUrl !== "" ? (
+              <li>
+                <a href={helpUrl}>
+                  <Help />
+                </a>
+              </li>
+            ) : null}
+            {tweetText !== "" ? (
+              <li>
+                <a
+                  href={"https://twitter.com/intent/tweet?&text=" + tweetText}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <Twitter />
+                </a>
+              </li>
+            ) : null}
+            {githubUrl !== "" ? (
+              <li
+                className="githubBtn"
+                sx={{
+                  px: 2,
+                  py: 2,
+                }}
+              >
+                <GitHubButton
+                  href={githubUrl}
+                  data-show-count="true"
+                  aria-label="Star on GitHub"
+                >
+                  Star
+                </GitHubButton>
+              </li>
+            ) : null}
+          </NavBarRight>
+        </NavBarCollapse>
+        <button
+          title="Toggle Color Mode"
           sx={{
-            display: ["block", null, "none"],
+            appearance: "none",
+            fontFamily: "inherit",
+            fontSize: 10,
+            textTransform: "uppercase",
+            letterSpacing: "0.1em",
+            fontWeight: "bold",
+            border: "none",
+            m: 2,
+            p: 2,
+            color: "text",
+            bg: "gray",
+            "&:focus": {
+              outline: "2px solid",
+            },
           }}
+          onClick={cycleMode}
         >
-          <Sidebar location={location} open={open} />
-        </div>
-        <NavBarRight open={open}>
-          {headerLinks.map((link, key) => {
-            if (link.link && link.text) {
-              return (
-                <li key={key}>
-                  <a
-                    href={link.link}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    dangerouslySetInnerHTML={{ __html: link.text }}
-                  />
-                </li>
-              )
-            }
-            return null
-          })}
-          {helpUrl !== "" ? (
-            <li>
-              <a href={helpUrl}>
-                <img src={help} alt="Help icon" />
-              </a>
-            </li>
-          ) : null}
-          {tweetText !== "" ? (
-            <li>
-              <a
-                href={"https://twitter.com/intent/tweet?&text=" + tweetText}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <img src={twitter} alt="Twitter" />
-              </a>
-            </li>
-          ) : null}
-          {githubUrl !== "" ? (
-            <li
-              className="githubBtn"
-              sx={{
-                px: 3,
-                py: [2, null, 3],
-              }}
-            >
-              <GitHubButton
-                href={githubUrl}
-                data-show-count="true"
-                aria-label="Star on GitHub"
-              >
-                Star
-              </GitHubButton>
-            </li>
-          ) : null}
-        </NavBarRight>
-      </NavBarCollapse>
+          {mode}
+        </button>
+      </div>
     </StyledHeader>
   )
 }

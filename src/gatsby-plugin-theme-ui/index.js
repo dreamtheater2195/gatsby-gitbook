@@ -6,14 +6,14 @@ const heading = {
 }
 
 const colors = {
-  text: "#322",
-  background: "#fff9f9",
-  primary: "#c30",
-  secondary: "#400",
-  gray: "#e9e6e6",
-  lightgray: "#f9f6f6",
+  text: "#000",
+  background: "#fff",
+  primary: "#00f",
+  secondary: "#00a",
   highlight: "#ededff",
   accent: "#c0f",
+  gray: "#eee",
+  lightgray: "#fafafa",
   midgray: "#777",
   modes: {
     dark: {
